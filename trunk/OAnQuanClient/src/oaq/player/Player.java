@@ -6,18 +6,12 @@ public class Player {
 	
 	private String username;	
 	private ImageIcon avatar ;
-	private int money;
+	private int credits;
 
 	public Player(){
 		username = "";
 		avatar = null; 	
-		money = 0;
-	}
-
-	public void reset() {
-		username = "";
-		avatar = null; 	
-		money = 0;
+		credits = 0;
 	}
 	
 	public String getUsername() {
@@ -36,11 +30,11 @@ public class Player {
 		this.avatar = avatar;
 	}
 
-	public int getMoney() {
-		return money;
+	public int getCredit() {
+		return credits;
 	}
 
-	public void setMoney(int money) {
-		this.money = money;
-	}	
+	public void setCredit(int credits) {
+		this.credits = credits;
+	}
 }

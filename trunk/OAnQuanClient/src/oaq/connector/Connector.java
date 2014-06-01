@@ -1,5 +1,6 @@
 package oaq.connector;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,35 +13,48 @@ public class Connector {
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
-	public void connect() {
+	public boolean connect() {
 		try {
 			socket = new Socket("localhost", 9998);
 			oos = new ObjectOutputStream(this.socket.getOutputStream());
 			ois = new ObjectInputStream(this.socket.getInputStream());
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 
-	public void disconnect() {
+	public boolean disconnect() {
 		try {
 			oos.close();
 			ois.close();
 			socket.close();
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 
-	public void sendMessage(String message) {
+	public boolean sendMessage(String message) {
 		try {
 			oos.writeObject(message);
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 
-	public void sendImage(ImageIcon image) {
-		try {			
-			oos.writeObject(image);
+	public boolean sendImage(String pathImage) {
+		try {
+			FileInputStream inFromHardDisk = new FileInputStream(pathImage);
+			int size = inFromHardDisk.available();
+			byte[] arrByteOfSentFile = new byte[size];
+			inFromHardDisk.read(arrByteOfSentFile, 0, size);
+			oos.writeObject(arrByteOfSentFile);
+			inFromHardDisk.close();
+			return true;
 		} catch (IOException e) {
+			return false;
 		} 
 	}
 

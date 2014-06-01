@@ -22,7 +22,6 @@ import oaq.game.Game;
 import oaq.gui.component.Avatar;
 import oaq.gui.component.Cell;
 import oaq.gui.component.Effect;
-import oaq.gui.component.MessageBox;
 import oaq.gui.component.MyButton;
 import oaq.gui.component.MyJScrollPane;
 import oaq.gui.component.MyPanel;
@@ -225,7 +224,7 @@ public class GuiPlay extends Gui {
 				btInvite.getPreferredSize().height);
 		pnMain.add(btInvite);
 
-		lbMoney = new JLabel("Tiền : " + getGame().getPlayer().getMoney());
+		lbMoney = new JLabel("Tiền : " + getGame().getPlayer().getCredit());
 		lbMoney.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lbMoney.setForeground(Color.yellow);
 		lbMoney.setBounds(321, 583, lbMoney.getPreferredSize().width,
@@ -352,8 +351,8 @@ public class GuiPlay extends Gui {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				MessageBox box = new MessageBox(GuiPlay.this, args, content);
-				pnEffect.add(box);
+				//MessageBox box = new MessageBox(GuiPlay.this, args, content);
+				//pnEffect.add(box);
 				pnEffect.repaint();
 				while(args[1].equals("")) {
 					try {

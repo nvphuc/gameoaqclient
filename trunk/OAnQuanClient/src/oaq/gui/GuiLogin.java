@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import oaq.game.Game;
+import oaq.gui.component.HintPasswordField;
 import oaq.gui.component.HintTextField;
 import oaq.processor.ProcessorGuiLogin;
 
@@ -43,7 +44,7 @@ public class GuiLogin extends Gui {
 		pnLogin.add(tfUsername);
 		
 		// Tao texfield password
-		tfPassword = new HintTextField("password");
+		tfPassword = new HintPasswordField("password");
 		tfPassword.setBounds(20, 150, 200, 40);
 		pnLogin.add(tfPassword);
 
