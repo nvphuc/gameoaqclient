@@ -1,7 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/oaq/gui/GuiPlay.java=UTF-8
+encoding//src/oaq/gui/GuiRegister.java=UTF-8
 encoding//src/oaq/gui/component/Avatar.java=UTF-8
 encoding//src/oaq/gui/component/Effect.java=UTF-8
+encoding//src/oaq/gui/component/MyInputDialog.java=UTF-8
+encoding//src/oaq/processor/ProcessorGuiEdit.java=UTF-8
 encoding//src/oaq/processor/ProcessorGuiLogin.java=UTF-8
 encoding//src/oaq/processor/ProcessorGuiPlay.java=UTF-8
+encoding//src/oaq/processor/ProcessorGuiRegister.java=UTF-8
 encoding//src/oaq/processor/ProcessorGuiWaitingRoom.java=UTF-8

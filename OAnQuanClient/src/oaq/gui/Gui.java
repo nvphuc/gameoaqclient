@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import oaq.game.Game;
 import oaq.gui.component.MyPanel;
 import oaq.processor.Processor;
+import oaq.sound.SoundManager;
 
 public abstract class Gui extends JFrame implements ActionListener {
 
@@ -47,8 +48,8 @@ public abstract class Gui extends JFrame implements ActionListener {
 		return pnEffect;
 	}
 
-	public JPanel getMainPane() {
-		return pnMain;
+	public SoundManager getSoundManager() {
+		return game.soundManager;
 	}
 	
 	abstract public void setGui();

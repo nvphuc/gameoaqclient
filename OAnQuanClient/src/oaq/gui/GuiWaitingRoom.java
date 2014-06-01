@@ -2,6 +2,7 @@ package oaq.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
@@ -48,7 +49,13 @@ public class GuiWaitingRoom extends Gui {
 		pnPlayer.setBorder(new BevelBorder(BevelBorder.RAISED));
 		pnPlayer.setBounds(44, 15, 300, 100);
 
-		lbAvatar = new JLabel(game.getPlayer().getAvatar());
+		lbAvatar = new JLabel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(game.getPlayer().getAvatar().getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		lbAvatar.setBounds(10, 10, 80, 80);
 		pnPlayer.add(lbAvatar);
 
@@ -63,7 +70,7 @@ public class GuiWaitingRoom extends Gui {
 		lbImgMoney.setBounds(100, 60, 26, 16);
 		pnPlayer.add(lbImgMoney);
 
-		lbMoney = new JLabel(game.getPlayer().getMoney() + "");
+		lbMoney = new JLabel(game.getPlayer().getCredit() + "");
 		lbMoney.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 15));
 		lbMoney.setForeground(Color.yellow);
 		lbMoney.setBounds(135, 57, lbMoney.getPreferredSize().width,
@@ -87,10 +94,10 @@ public class GuiWaitingRoom extends Gui {
 		btUpdate.setBounds(55, 510, btUpdate.getPreferredSize().width,
 				btUpdate.getPreferredSize().height);
 
-		/*btEdit = new MyButton("btEdit", "btEdit_MouseOver");
+		btEdit = new MyButton("btEdit", "btEdit_MouseOver", "btEdit");
 		btEdit.addActionListener(this);
 		btEdit.setBounds(740, 15, btEdit.getPreferredSize().width,
-				btEdit.getPreferredSize().height);*/
+				btEdit.getPreferredSize().height);
 
 		btLogout = new MyButton("btThoat", "btThoat_Over", "btThoat");
 		btLogout.addActionListener(this);
@@ -113,7 +120,7 @@ public class GuiWaitingRoom extends Gui {
 		pnMain.add(btCreateTable);
 		pnMain.add(btPlayRight);
 		pnMain.add(btUpdate);
-		//pnMain.add(btEdit);
+		pnMain.add(btEdit);
 		pnMain.add(btLogout);
 
 		((ProcessorGuiWaitingRoom) processor).updateTables();
@@ -123,7 +130,7 @@ public class GuiWaitingRoom extends Gui {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ProcessorGuiWaitingRoom processor = (ProcessorGuiWaitingRoom) this.processor;
+ProcessorGuiWaitingRoom processor = (ProcessorGuiWaitingRoom) this.processor;
 		
 		if (e.getSource() == btCreateTable) {
 			processor.createTable();
@@ -149,9 +156,6 @@ public class GuiWaitingRoom extends Gui {
 			processor.updateTables();
 			return;
 		}
-		/*
-		 * if (e.getSource() == btUpdate) { processor.showMessageBox(); }
-		 */
 	}
 
 }

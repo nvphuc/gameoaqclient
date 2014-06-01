@@ -13,7 +13,6 @@ import oaq.gui.GuiEdit;
 import oaq.gui.GuiLogin;
 import oaq.gui.GuiPlay;
 import oaq.gui.GuiWaitingRoom;
-import oaq.gui.component.MessageBox;
 import oaq.gui.component.Table;
 
 public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
@@ -120,14 +119,15 @@ public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
 	}
 
 	public void editAccount() {
+		getConnector().sendMessage("Edit");
 		new GuiEdit(getGame(), getGuiLocation());
 		gui.dispose();
 		isRunning = false;
 	}
-
+	
 	public void logout() {
 		getConnector().disconnect();
-		getPlayer().reset();
+		getGame().reset();
 		new GuiLogin(getGame(), getGuiLocation());
 		gui.dispose();
 		isRunning = false;
@@ -182,25 +182,5 @@ public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
 
 		/* Repaint lai pnTables */
 		gui.scrollPaneTable.getContainer().repaint();
-	}
-
-	public void showMessageBox() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				String[] a = { "OK", "CANCEL", "" };
-				gui.getPaneEffect().add(
-						new MessageBox(gui, a, "Thử tạo message box"));
-				gui.getPaneEffect().repaint();
-				while (a[2].equals("")) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				System.out.println(a[2]);
-			}
-		}).start();
 	}
 }
