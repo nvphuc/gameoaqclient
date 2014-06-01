@@ -15,12 +15,14 @@ public class Avatar extends JPanel {
 
 	Image imgBoder, imgAvatar;
 	String userName;
+	String credits;
 	String ready;
-	int width = 100, height = 120;
+	int width = 100, height = 130;
 
 	public Avatar(String userName) {
 		this.setOpaque(false);
 		this.userName = userName;
+		this.credits = "99999";
 		this.ready = "";
 		this.imgBoder = (new ImageIcon("images/boderAvatar3.png")).getImage();
 		this.imgAvatar = (new ImageIcon("images/noAvatar.png")).getImage();
@@ -29,7 +31,7 @@ public class Avatar extends JPanel {
 		}
 	}
 
-	public Avatar(String userName, ImageIcon imgAvatar) {
+	/*public Avatar(String userName, ImageIcon imgAvatar) {
 		this.setOpaque(false);
 		this.userName = userName;
 		this.imgBoder = (new ImageIcon("images/boderAvatar1.png")).getImage();
@@ -37,35 +39,57 @@ public class Avatar extends JPanel {
 		if (userName.length() * 9.5 > 100) {
 			width = (int) (userName.length() * 9.5);
 		}
-	}
+	}*/
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
-		Font font = new Font("Serif", Font.BOLD, 18);
-		g2d.setFont(font);
-		g2d.setColor(Color.yellow);
-		FontMetrics fm = g2d.getFontMetrics();
-		int stringWidth = fm.stringWidth(userName);
+		g2d.setFont(new Font("Serif", Font.BOLD, 18));
+		g2d.setColor(Color.white);
+		int widthUserName = g2d.getFontMetrics().stringWidth(userName);
 
-		if (stringWidth < 100) {
-			g2d.drawImage(imgBoder, 0, 0, 100, 100, null);
-			g2d.drawImage(imgAvatar, 5, 5, 90, 90, null);
-			g2d.drawString(userName, (100 - stringWidth) / 2, 115);
+		if (widthUserName < 100) {
+			g2d.drawImage(imgBoder, 0, 18, 100, 100, null);
+			g2d.drawImage(imgAvatar, 5, 23, 90, 90, null);
+			
+			g2d.drawString(userName, (100 - widthUserName) / 2, 12);
+			
+			if(!credits.equals("")) {
+				g2d.setFont(new Font("Serif", Font.PLAIN, 16));
+				g2d.setColor(Color.white);
+				int widthCredits = g2d.getFontMetrics().stringWidth(credits);
+				g2d.drawString(credits, (100 - widthCredits - 10) / 2 + 10, 130);
+				
+				g2d.setFont(new Font("Serif", Font.BOLD, 16));
+				g2d.setColor(Color.yellow);
+				g2d.drawString("$", (100 - widthCredits - 10) / 2, 130);
+			}
 			
 			g2d.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			g2d.setColor(Color.red);
-			g2d.drawString(ready, 10, 30);
+			g2d.drawString(ready, 10, 50);
 		} else {
-			g2d.drawImage(imgBoder, (stringWidth - 100) / 2, 0, 100, 100, null);
-			g2d.drawImage(imgAvatar, (stringWidth - 100) / 2 + 5, 5, 90, 90, null);
-			g2d.drawString(userName, 0, 115);
+			g2d.drawImage(imgBoder, (widthUserName - 100) / 2, 18, 100, 100, null);
+			g2d.drawImage(imgAvatar, (widthUserName - 100) / 2 + 5, 23, 90, 90, null);
+
+			g2d.drawString(userName, 0, 12);
+			
+			if(!credits.equals("")) {
+				g2d.setFont(new Font("Serif", Font.PLAIN, 16));
+				g2d.setColor(Color.white);
+				int widthCredits = g2d.getFontMetrics().stringWidth(credits);
+				g2d.drawString(credits, (widthUserName - widthCredits - 10) / 2 + 10, 130);
+				
+				g2d.setFont(new Font("Serif", Font.BOLD, 16));
+				g2d.setColor(Color.yellow);
+				g2d.drawString("$", (widthUserName - widthCredits - 10) / 2, 130);
+			}
 			
 			g2d.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			g2d.setColor(Color.red);
-			g2d.drawString(ready, (stringWidth - 100) / 2 + 10, 30);
+			g2d.drawString(ready, (widthUserName - 100) / 2 + 10, 50);
 		}					
 		setBounds(getLocation().x, getLocation().y, width, height);
 	}
@@ -87,6 +111,10 @@ public class Avatar extends JPanel {
 		repaint();
 	}
 	
+	public void setCredit(String credits) {
+		this.credits = credits;
+	}
+	
 	public void setReady(boolean check) {
 		if(check) {
 			ready = "Sẵn Sàng";
@@ -99,5 +127,9 @@ public class Avatar extends JPanel {
 	
 	public String getUserName() {
 		return userName;
+	}
+	
+	public int getCredits() {
+		return Integer.parseInt(credits);
 	}
 }

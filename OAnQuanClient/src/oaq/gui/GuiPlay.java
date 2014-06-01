@@ -2,6 +2,7 @@ package oaq.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,7 +50,7 @@ public class GuiPlay extends Gui {
 
 	public JPanel[] pnPlayer;
 	public Avatar[] avatarPlayer;
-
+	
 	public GuiPlay(Game game, Point location, int orderNumber) {
 		super(game, location, "BackGroundPlay");
 		setTitle("Play Game");
@@ -60,7 +62,7 @@ public class GuiPlay extends Gui {
 
 	@Override
 	public void setGui() {
-
+		
 		// Tao board panel
 		pnBoard = new JPanel();
 		pnBoard.setLayout(null);
@@ -148,7 +150,7 @@ public class GuiPlay extends Gui {
 				+ avatarPlayer[1].getSize().width + 40;
 		pnPlayer[1].setBounds((1000 - pnWidth) / 2, 26,
 				stores[1].getSize().width + avatarPlayer[1].getSize().width
-						+ 40, 120);
+						+ 40, 130);
 		pnMain.add(pnPlayer[1]);
 
 		// pnPlayer[0]
@@ -172,7 +174,7 @@ public class GuiPlay extends Gui {
 				+ 60;
 		pnPlayer[0].setBounds((1000 - pnWidth) / 2, 400,
 				stores[0].getSize().width + avatarPlayer[1].getSize().width
-						+ 60, 120);
+						+ 60, 130);
 		pnMain.add(pnPlayer[0]);
 
 		// Tao khung chat
