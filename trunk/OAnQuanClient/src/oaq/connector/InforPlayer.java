@@ -15,7 +15,7 @@ public class InforPlayer implements Serializable {
 	public InforPlayer(String UserName, ImageIcon Avatar, int Credit, int Status) {
 		this.UserName = UserName;
 		this.Avatar = Avatar;
-		this.Credits = Credits;
+		this.Credits = Credit;
 		this.Status = Status;
 	}
 

@@ -4,8 +4,10 @@ import oaq.connector.InforPlayer;
 import oaq.connector.InforTable;
 import oaq.gui.Gui;
 import oaq.gui.GuiPlay;
+import oaq.gui.GuiWaitingRoom;
 import oaq.gui.component.Avatar;
 import oaq.gui.component.Cell;
+import oaq.gui.component.MyDialog;
 import oaq.player.Player;
 
 public class ProcessorGuiPlay extends Processor implements Runnable {
@@ -13,7 +15,8 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 	private int orderNumber;
 	private int benRaiquan;
 	private boolean isRunning;
-
+	
+	private boolean isPlaying;
 	public boolean isMovingStones;
 	public int selectedCell, direction;
 
@@ -21,6 +24,7 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 		super(gui);
 		this.orderNumber = orderNumber;
 		isRunning = true;
+		isPlaying = false;
 		isMovingStones = false;
 		selectedCell = -1;
 		direction = 0;
@@ -31,7 +35,7 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 	public void run() {
 		while (isRunning) {
 			String message = getConnector().receiveMessage();
-			//System.out.println("PlayNhan: " + message);
+			System.out.println("PlayNhan: " + message);
 			String[] args = message.split("@");
 			String[] data;
 
@@ -83,14 +87,20 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 				break;
 				
 			case "GameResult":
-				if(Integer.parseInt(args[1]) == orderNumber)
-					((GuiPlay) gui).showWinner(true);
-				else
-					((GuiPlay) gui).showWinner(false);
+				data = args[1].split(":");
+				gameResult(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 				break;
 			
 			case "Report":
 				((GuiPlay) gui).showReport(args[1], orderNumber);
+				break;
+				
+			case "RSLeaveTable":
+				leaveTable(Integer.parseInt(args[1]));
+				break;
+				
+			case "AnotherPlayerLeave":
+				//showAnotherPlayerLeaveTable();
 				break;
 				
 			default:
@@ -102,6 +112,41 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 	
 	
 	
+
+	private void gameResult(int winner, int bet) {
+		GuiPlay gui = (GuiPlay) this.gui;
+		isPlaying = false;
+		
+		if(winner == orderNumber) {
+			gui.showWinner(0);
+			getPlayer().setCredit(getPlayer().getCredit() + bet);
+			gui.showCredit("+ " + bet);
+		}
+		else {
+			if(winner == 2) {
+				gui.showWinner(2);
+			}			
+			else {
+				gui.showWinner(1);
+				getPlayer().setCredit(getPlayer().getCredit() - bet);
+				gui.showCredit("- " + bet);
+			}
+		}		
+	}
+
+	private void showAnotherPlayerLeaveTable() {
+		GuiPlay gui = (GuiPlay) this.gui;
+		String msg = gui.avatarPlayer[1].getName() + " đã rời bàn";
+		gui.showMessage(msg);
+	}
+
+	private void leaveTable(int amount) {
+		int credits = getPlayer().getCredit() + amount;
+		getPlayer().setCredit(credits);
+		
+		new GuiWaitingRoom(getGame(), getGuiLocation());
+		gui.dispose();	
+	}
 
 	private void showRaidan() {
 		final GuiPlay gui = (GuiPlay) this.gui;
@@ -157,9 +202,18 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 		getConnector().sendMessage("Raidan@" + orderNumber);	
 	}
 
-	public void leaveTable() {
-		// TODO Auto-generated method stub
-
+	public void sendLeaveTable() {
+		if(isPlaying) {
+			String[] bts = {"ĐỒNG Ý", "HỦY"};
+			MyDialog dialog = new MyDialog();
+			int choice = dialog.showMessage(gui, "", "Nếu rời phòng bạn sẽ thua tiền cược", bts);
+			if(choice == 0) {
+				getConnector().sendMessage("LeaveTable");
+			}
+		}
+		else {
+			getConnector().sendMessage("LeaveTable");
+		}
 	}
 
 	public void invite() {
@@ -319,6 +373,8 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 				gui.avatarPlayer[(2 + i - orderNumber) % 2]
 						.setUserName(inforPlayer.getUserName());
 				gui.avatarPlayer[(2 + i - orderNumber) % 2]
+						.setCredit(inforPlayer.getCredit());
+				gui.avatarPlayer[(2 + i - orderNumber) % 2]
 						.setImgAvatar(inforPlayer.getAvatar());
 				if (inforPlayer.getStatus() == 1) {
 					gui.avatarPlayer[(2 + i - orderNumber) % 2].setReady(true);
@@ -338,6 +394,7 @@ public class ProcessorGuiPlay extends Processor implements Runnable {
 	}
 
 	private void initGame() {
+		isPlaying = true;
 		isMovingStones = false;
 		selectedCell = -1;
 		direction = 0;

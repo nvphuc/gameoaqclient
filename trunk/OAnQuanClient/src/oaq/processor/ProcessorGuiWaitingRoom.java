@@ -13,6 +13,8 @@ import oaq.gui.GuiEdit;
 import oaq.gui.GuiLogin;
 import oaq.gui.GuiPlay;
 import oaq.gui.GuiWaitingRoom;
+import oaq.gui.component.MyDialog;
+import oaq.gui.component.MyInputDialog;
 import oaq.gui.component.Table;
 
 public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
@@ -37,7 +39,7 @@ public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
 			case "RSCreateTable":
 				/*
 				 * msg gui: "CreateTable@TableName"
-				 * msg nhan: "RSCreateTable@OK:orderNumber|ERROR:NONE"
+				 * msg nhan: "RSCreateTable@OK:orderNumber|ERROR"
 				 */
 				data = args[1].split(":");
 				if (data[0].equals("OK")) {
@@ -45,7 +47,8 @@ public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
 					new GuiPlay(getGame(), getGuiLocation(), Integer.parseInt(data[1]));
 					gui.dispose();									
 				} else {
-					JOptionPane.showMessageDialog(getGui(),"Tên bàn đã tồn tại", "Error",JOptionPane.ERROR_MESSAGE);
+					String[] bt = {"XÁC NHẬN"};
+					new MyDialog().showMessage(gui, "", "Tên bàn đã tồn tại", bt);
 				}
 				break;
 				
@@ -101,13 +104,11 @@ public class ProcessorGuiWaitingRoom extends Processor implements Runnable {
 	}
 
 	public void createTable() {
-		String TableName = JOptionPane.showInputDialog(gui, "Nhập tên bàn :",
-				"Inform", JOptionPane.INFORMATION_MESSAGE);
+		MyInputDialog dialog = new MyInputDialog();
+		String TableName = dialog.showMessage(gui, "", "NHẬP TÊN BÀN:");
 		if (TableName != null) {
 			while (TableName.equals("") || TableName.length() > 10) {
-				String input = JOptionPane.showInputDialog(gui,
-						"Nhập tên bàn (Từ 1 đến 10 ký tự):", "Inform",
-						JOptionPane.INFORMATION_MESSAGE);
+				String input = dialog.showMessage(gui, "", "NHẬP TÊN BÀN (từ 6 đến 10 ký tự):");
 				TableName = input;
 				if (TableName == null)
 					break;
