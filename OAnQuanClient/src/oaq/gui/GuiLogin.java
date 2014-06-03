@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 
 import oaq.game.Game;
 import oaq.gui.component.HintPasswordField;
@@ -23,7 +24,7 @@ public class GuiLogin extends Gui {
 	private JPanel pnLogin;
 
 	public GuiLogin(Game game, Point location) {
-		super(game, location, "BackGroundWait");
+		super(game, location, "background07");
 		setTitle("Login");			
 		setGui();
 		processor = new ProcessorGuiLogin(this);
@@ -36,7 +37,9 @@ public class GuiLogin extends Gui {
 		pnLogin = new JPanel();
 		pnLogin.setBounds(650, (640-350)/2, 240, 350);
 		pnLogin.setLayout(null);
-		pnLogin.setBackground(Color.WHITE);
+		pnLogin.setOpaque(false);
+		pnLogin.setBorder(new BevelBorder(BevelBorder.RAISED));
+		//pnLogin.setBackground(Color.WHITE);
 		
 		// Tao textfield username
 		tfUsername = new HintTextField("username");
@@ -61,8 +64,8 @@ public class GuiLogin extends Gui {
 		pnLogin.add(btRegister);
 						
 		// Tao anh logo
-		lbLogo = new JLabel(new ImageIcon("images/LogoGame.gif"));
-		lbLogo.setBounds(150, 100, 325, 113);
+		lbLogo = new JLabel(new ImageIcon("images/LogoGameOL.gif"));
+		lbLogo.setBounds(150, 100, 448, 135);
 		
 		// Gan cac thanh phan vao pnMain
 		pnMain.add(lbLogo);

@@ -22,7 +22,7 @@ public class Avatar extends JPanel {
 	public Avatar(String userName) {
 		this.setOpaque(false);
 		this.userName = userName;
-		this.credits = "99999";
+		this.credits = "";
 		this.ready = "";
 		this.imgBoder = (new ImageIcon("images/boderAvatar3.png")).getImage();
 		this.imgAvatar = (new ImageIcon("images/noAvatar.png")).getImage();
@@ -47,7 +47,7 @@ public class Avatar extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setFont(new Font("Serif", Font.BOLD, 18));
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.yellow);
 		int widthUserName = g2d.getFontMetrics().stringWidth(userName);
 
 		if (widthUserName < 100) {
@@ -58,7 +58,7 @@ public class Avatar extends JPanel {
 			
 			if(!credits.equals("")) {
 				g2d.setFont(new Font("Serif", Font.PLAIN, 16));
-				g2d.setColor(Color.white);
+				g2d.setColor(Color.yellow);
 				int widthCredits = g2d.getFontMetrics().stringWidth(credits);
 				g2d.drawString(credits, (100 - widthCredits - 10) / 2 + 10, 130);
 				
@@ -78,7 +78,7 @@ public class Avatar extends JPanel {
 			
 			if(!credits.equals("")) {
 				g2d.setFont(new Font("Serif", Font.PLAIN, 16));
-				g2d.setColor(Color.white);
+				g2d.setColor(Color.yellow);
 				int widthCredits = g2d.getFontMetrics().stringWidth(credits);
 				g2d.drawString(credits, (widthUserName - widthCredits - 10) / 2 + 10, 130);
 				
@@ -111,8 +111,10 @@ public class Avatar extends JPanel {
 		repaint();
 	}
 	
-	public void setCredit(String credits) {
-		this.credits = credits;
+	public void setCredit(int credits) {
+		System.out.println(credits);
+		this.credits = credits + "";
+		repaint();
 	}
 	
 	public void setReady(boolean check) {

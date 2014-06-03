@@ -24,15 +24,13 @@ public class GuiRegister extends Gui {
 	private JPanel pnRegister;
 	
 	public GuiRegister(Game game, Point location) {
-		super(game, location, "BackGroundWait");
+		super(game, location, "background07");
 		processor = new ProcessorGuiRegister(this);
 		setGui();
 	}
 
 	@Override
 	public void setGui() {
-		//ImageIcon icon1 = new ImageIcon("images/niem3.png");
-		//ImageIcon icon2 = new ImageIcon("images/niem2.png");
 
 		// Tao panel chua khung register
 		pnRegister = new JPanel();

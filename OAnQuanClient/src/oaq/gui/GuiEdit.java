@@ -25,7 +25,7 @@ public class GuiEdit extends Gui {
 	public ImageIcon image;
 	
 	public GuiEdit(Game game, Point location) {
-		super(game, location, "BackGroundWait");
+		super(game, location, "background07");
 		processor = new ProcessorGuiEdit(this);
 		setGui();
 	}

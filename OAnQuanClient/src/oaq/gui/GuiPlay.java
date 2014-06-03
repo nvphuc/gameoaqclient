@@ -22,7 +22,9 @@ import oaq.game.Game;
 import oaq.gui.component.Avatar;
 import oaq.gui.component.Cell;
 import oaq.gui.component.Effect;
+import oaq.gui.component.EffectCredit;
 import oaq.gui.component.MyButton;
+import oaq.gui.component.MyDialog;
 import oaq.gui.component.MyJScrollPane;
 import oaq.gui.component.MyPanel;
 import oaq.gui.component.Store;
@@ -177,7 +179,7 @@ public class GuiPlay extends Gui {
 		pnMain.add(pnPlayer[0]);
 
 		// Tao khung chat
-		pnChat = new MyPanel("BackGround2");
+		pnChat = new MyPanel("BackGroundBox");
 		pnChat.setLayout(null);
 		pnChat.setOpaque(false);
 		pnChat.setBounds(10, 430, 280, 195);
@@ -302,7 +304,7 @@ public class GuiPlay extends Gui {
 			return;
 		}
 		if (e.getSource() == btLeaveTable) {
-			processor.leaveTable();
+			processor.sendLeaveTable();
 			return;
 		}
 		if (e.getSource() == btInvite) {
@@ -323,17 +325,30 @@ public class GuiPlay extends Gui {
 		pnEffect.repaint();
 	}
 	
-	public void showWinner(boolean check) {
+	public void showWinner(int result) {
 		String notice = "";
-		if(check){
+		switch(result) {
+		case 0:
 			notice = "BAÏN THAÉNG";
-		}
-		else{
+			break;
+		case 1:
 			notice = "BAÏN THUA";
+			break;
+		case 2:
+			notice = "HOØA";
+			break;
 		}
 		Effect effect = new Effect(notice);
 		effect.setBounds((pnEffect.getWidth() - notice.length() * 60) / 2,
 				(pnEffect.getHeight() - 130) / 2, notice.length() * 60, 130);
+		pnEffect.add(effect);
+		pnEffect.repaint();
+	}
+	
+	public void showMessage(String message) {
+		Effect effect = new Effect(message);
+		effect.setBounds((pnEffect.getWidth() - message.length() * 60) / 2,
+				(pnEffect.getHeight() - 130) / 2, message.length() * 60, 130);
 		pnEffect.add(effect);
 		pnEffect.repaint();
 	}
@@ -343,26 +358,19 @@ public class GuiPlay extends Gui {
 		String[] thisPlayer = players[orderNumber].split(":");
 		String[] anotherPlayer = players[(orderNumber+1)%2].split(":");
 		
-		final String[] args = {"OK", ""};
+		final String[] args = {"XÁC NHẬN"};
 
 		final String content = "<html>" + avatarPlayer[0].getUserName() + ":<br>" + "Stones = " + thisPlayer[0] + ", BigStones = " + thisPlayer[1] + ", Vay " + thisPlayer[2] + " Stones<br>" +
 										  avatarPlayer[1].getUserName() + ":<br>" + "Stones = " + anotherPlayer[0] + ", BigStones = " + anotherPlayer[1] + ", Vay " + anotherPlayer[2] + " Stones<br>";
+		new MyDialog().showMessage(this, "", content, args);
 		
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				//MessageBox box = new MessageBox(GuiPlay.this, args, content);
-				//pnEffect.add(box);
-				pnEffect.repaint();
-				while(args[1].equals("")) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				((ProcessorGuiPlay) processor).resetGame();
-			}
-		}).start();
+	}
+
+	public void showCredit(String credit) {
+		EffectCredit effect = new EffectCredit(credit);
+		effect.setBounds((pnEffect.getWidth() - credit.length() * 60) / 2 - 20,(pnEffect.getHeight() - 130) / 2 + 150, credit.length() * 60, 130);
+		pnEffect.add(effect);
+		pnEffect.repaint();
+		
 	}
 }

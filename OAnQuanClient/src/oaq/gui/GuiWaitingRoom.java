@@ -26,12 +26,12 @@ public class GuiWaitingRoom extends Gui {
 	public MyJScrollPane scrollPaneTable;
 
 	public Table[] tables = new Table[100];
-	private JButton btCreateTable, btPlayRight, btUpdate, btLogout, btEdit;
+	private JButton btCreateTable, btPlayRight, btUpdate, btLogout, btEdit, btSetting;
 
 	public JLabel lbAvatar, lbUsername, lbImgMoney, lbMoney;
 
 	public GuiWaitingRoom(Game game, Point location) {
-		super(game, location, "BackGroundWait");
+		super(game, location, "background07");
 		setTitle("WaitRoom");		
 		processor = new ProcessorGuiWaitingRoom(this);
 		setGui();
@@ -62,7 +62,7 @@ public class GuiWaitingRoom extends Gui {
 		lbUsername = new JLabel(game.getPlayer().getUsername());
 		lbUsername.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 15));
 		lbUsername.setForeground(Color.yellow);
-		lbUsername.setBounds(100, 10, lbUsername.getPreferredSize().width,
+		lbUsername.setBounds(100, 20, lbUsername.getPreferredSize().width,
 				lbUsername.getPreferredSize().height);
 		pnPlayer.add(lbUsername);
 
@@ -94,18 +94,23 @@ public class GuiWaitingRoom extends Gui {
 		btUpdate.setBounds(55, 510, btUpdate.getPreferredSize().width,
 				btUpdate.getPreferredSize().height);
 
-		btEdit = new MyButton("btEdit", "btEdit_MouseOver", "btEdit");
+		btEdit = new MyButton("btEdit", "btEdit_Over", "btEdit");
 		btEdit.addActionListener(this);
 		btEdit.setBounds(740, 15, btEdit.getPreferredSize().width,
 				btEdit.getPreferredSize().height);
-
-		btLogout = new MyButton("btThoat", "btThoat_Over", "btThoat");
+		
+		btSetting = new MyButton("btSet", "btSet_Over", "btSet");
+		btSetting.addActionListener(this);
+		btSetting.setBounds(795, 15, btSetting.getPreferredSize().width,
+				btSetting.getPreferredSize().height);
+		
+		btLogout = new MyButton("btLogout", "btLogout_Over", "btThoat");
 		btLogout.addActionListener(this);
 		btLogout.setBounds(850, 15, btLogout.getPreferredSize().width,
 				btLogout.getPreferredSize().height);
 
 		// Tao pane Tables
-		pnTables = new MyPanel("BackGround2");
+		pnTables = new MyPanel("BackGroundBox");
 		pnTables.setLayout(null);
 		pnTables.setOpaque(false);
 		pnTables.setBounds(45, 160, 606, 350);
@@ -121,6 +126,7 @@ public class GuiWaitingRoom extends Gui {
 		pnMain.add(btPlayRight);
 		pnMain.add(btUpdate);
 		pnMain.add(btEdit);
+		pnMain.add(btSetting);
 		pnMain.add(btLogout);
 
 		((ProcessorGuiWaitingRoom) processor).updateTables();
